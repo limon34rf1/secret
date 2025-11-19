@@ -7,5 +7,41 @@
  <body>
   <h1>Ego vere amo feles</h1>
   <p>gAAAAABpHYp1_KwHxCAXDQcoF3w1CENqzdOknhMyH0U_2lQVMmqOlsqdr3SadVWFxIXAJOCLvmkHN4Xrut3V8SNALGQpYgb2I6qDs9XyDUHj5sfrSsX-anOH0m3jENWZhXlwql6OptsXauXTXxrwznAMOAQJZUJiJqLzGgDFlW4el2a0U-cAP3mPnAQsBRNBCMK0329jXqDtaFJEkTlshFqK3W4aUuCYaM-e2Qt5d0jP1Ktei8y-YhkfV81jdWQL17MFUt3UmRZXdhJvEaH_k3Ej5SlVQAovCKroFVpbCXYLJRMtSbV4itc=</p>
+  <h2>Fortasse hoc tibi proderit</h2>
+  <pre>
+!pip3 install cryptography
+
+from cryptography.fernet import Fernet
+import base64
+import os
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
+
+def gen_key(pword: str) -> bytes:
+    password = pword.encode()
+    salt = b'\x8d\x1e\x1c\x9b\x90\xf2\x1a\x1b\x9d\x0e\x1c\x1f\x0e\x1c\x1f\x0e'
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=?????, backend=default_backend())
+    key = base64.urlsafe_b64encode(kdf.derive(password))
+    return key
+def coder(message: str, key: bytes) -> str:
+    f = Fernet(key)
+    res = f.encrypt(message.encode())
+    return res.decode()
+
+def decoder(message: str, key: bytes) -> str:
+    f = Fernet(key)
+    res = f.decrypt(message.encode())
+    return res.decode()
+
+SECRET_KEY = ''
+encryption_key = gen_key(SECRET_KEY)
+
+encrypted_text = coder('text', encryption_key)
+print(f'result: {encrypted_text}')
+
+decrypted_text = decoder('', encryption_key)
+print(f'result: {decrypted_text}')
+  </pre>
  </body>
 </html>
