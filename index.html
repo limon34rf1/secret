@@ -24,10 +24,6 @@ def gen_key(pword: str) -> bytes:
     kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=?????, backend=default_backend())
     key = base64.urlsafe_b64encode(kdf.derive(password))
     return key
-def coder(message: str, key: bytes) -> str:
-    f = Fernet(key)
-    res = f.encrypt(message.encode())
-    return res.decode()
 
 def decoder(message: str, key: bytes) -> str:
     f = Fernet(key)
@@ -36,9 +32,6 @@ def decoder(message: str, key: bytes) -> str:
 
 SECRET_KEY = ''
 encryption_key = gen_key(SECRET_KEY)
-
-encrypted_text = coder('text', encryption_key)
-print(f'result: {encrypted_text}')
 
 decrypted_text = decoder('', encryption_key)
 print(f'result: {decrypted_text}')
